@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Platform
+  Platform,
+  Dimensions
 } from "react-native";
 
 import { connect } from "react-redux";
@@ -14,6 +15,26 @@ import { deletePlace } from "../../store/actions/index";
 import Icon from "react-native-vector-icons/Ionicons";
 
 class PlaceDetail extends Component {
+  state = {
+    viewMode: "portrait"
+  };
+
+  constructor(props) {
+    super(props);
+
+    Dimensions.addEventListener("change", this.updateStyles);
+  }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener("change", this.updateStyles);
+  }
+
+  updateStyles = dims => {
+    this.setState({
+      viewMode: dims.window.height > 500 ? "portrait" : "landscape"
+    });
+  };
+
   placeDeletedHander = () => {
     this.props.onDeletePlace(this.props.selectedPlace.key);
     this.props.navigator.pop();
@@ -21,22 +42,36 @@ class PlaceDetail extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image
-          source={this.props.selectedPlace.image}
-          style={styles.placeImage}
-        />
-        <Text style={styles.placeName}>{this.props.selectedPlace.name}</Text>
-        <View>
-          <TouchableOpacity onPress={this.placeDeletedHander}>
-            <View style={styles.deleteButton}>
-              <Icon
-                size={30}
-                name={Platform.OS === "android" ? "md-trash" : "ios-trash"}
-                color="red"
-              />
-            </View>
-          </TouchableOpacity>
+      <View
+        style={[
+          styles.container,
+          this.state.viewMode === "portrait"
+            ? styles.portraitContainer
+            : styles.landscapeContainer
+        ]}>
+        <View style={styles.subContainer}>
+          <Image
+            source={this.props.selectedPlace.image}
+            style={styles.placeImage}
+          />
+        </View>
+        <View style={styles.subContainer}>
+          <View>
+            <Text style={styles.placeName}>
+              {this.props.selectedPlace.name}
+            </Text>
+          </View>
+          <View>
+            <TouchableOpacity onPress={this.placeDeletedHander}>
+              <View style={styles.deleteButton}>
+                <Icon
+                  size={30}
+                  name={Platform.OS === "android" ? "md-trash" : "ios-trash"}
+                  color="red"
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -45,7 +80,14 @@ class PlaceDetail extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 22
+    margin: 22,
+    flex: 1
+  },
+  portraitContainer: {
+    flexDirection: "column"
+  },
+  landscapeContainer: {
+    flexDirection: "row"
   },
   placeImage: {
     width: "100%",
@@ -58,6 +100,9 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     alignItems: "center"
+  },
+  subContainer: {
+    flex: 1
   }
 });
 
