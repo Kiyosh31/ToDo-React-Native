@@ -129,7 +129,7 @@ class AuthScreen extends Component {
               placeholder="E-mail address"
               style={styles.inputText}
               value={this.state.controls.email.value}
-              onChangeText={val => this.updateInputState("email")}
+              onChangeText={val => this.updateInputState("email", val)}
             />
             <View
               style={
@@ -149,7 +149,7 @@ class AuthScreen extends Component {
                   placeholder="Password"
                   style={styles.inputText}
                   value={this.state.controls.password.value}
-                  onChangeText={val => this.updateInputState("password")}
+                  onChangeText={val => this.updateInputState("password", val)}
                 />
               </View>
               <View
@@ -163,7 +163,9 @@ class AuthScreen extends Component {
                   placeholder="Confirm Password"
                   style={styles.inputText}
                   value={this.state.controls.confirmPassword.value}
-                  onChangeText={val => this.updateInputState("confirmPassword")}
+                  onChangeText={val =>
+                    this.updateInputState("confirmPassword", val)
+                  }
                 />
               </View>
             </View>
