@@ -17,13 +17,24 @@ import PickLocation from "../../components/PickLocation/PickLocation";
 
 import { addPlace } from "../../store/actions/index";
 
+import validate from "../../utility/validation";
+
 class SharePlaceScreen extends Component {
   static navigatorStyle = {
     navBarButtonColor: "orange"
   };
 
   state = {
-    placeName: ""
+    controls: {
+      placeName: {
+        value: "",
+        valid: false,
+        touched: false,
+        validationRules: {
+          noteEmpty: true
+        }
+      }
+    }
   };
 
   constructor(props) {
@@ -42,14 +53,24 @@ class SharePlaceScreen extends Component {
   };
 
   placenameChangedHandler = val => {
-    this.setState({
-      placeName: val
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          placeName: {
+            ...prevState.controls.placeName,
+            value: val,
+            valid: validate(val, prevState.controls.placeName.validationRules),
+            touched: true
+          }
+        }
+      };
     });
   };
 
   placeAddedHandler = () => {
-    if (this.state.placeName.trim() !== "") {
-      this.props.onAddPlace(this.state.placeName);
+    if (this.state.controls.placeName.value.trim() !== "") {
+      this.props.onAddPlace(this.state.controls.placeName.value);
     }
   };
 
@@ -63,11 +84,15 @@ class SharePlaceScreen extends Component {
           <PickImage />
           <PickLocation />
           <PlaceInput
-            placeName={this.state.placeName}
+            placeData={this.state.controls.placeName}
             onChangeText={this.placenameChangedHandler}
           />
           <View style={styles.button}>
-            <Button title="share a place" onPress={this.placeAddedHandler} />
+            <Button
+              title="share a place"
+              onPress={this.placeAddedHandler}
+              disabled={!this.state.controls.placeName.valid}
+            />
           </View>
         </View>
       </ScrollView>
