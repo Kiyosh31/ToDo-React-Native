@@ -19,3 +19,17 @@ or
 ```
 npm i
 ```
+
+# Run
+
+if you are in IOS:
+
+```
+npm run ios
+```
+
+else if you are in Android:
+
+```
+npm run android
+```
