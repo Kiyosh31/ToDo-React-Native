@@ -13,8 +13,7 @@ const reducer = (state = initialState, action) => {
           key: Math.random(),
           name: action.placeName,
           image: {
-            uri:
-              "https://www.viajejet.com/wp-content/viajes/Lago-Moraine-Parque-Nacional-Banff-Alberta-Canada-1440x810.jpg"
+            uri: action.image.uri
           },
           location: action.location
         })
