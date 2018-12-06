@@ -15,7 +15,8 @@ const reducer = (state = initialState, action) => {
           image: {
             uri:
               "https://www.viajejet.com/wp-content/viajes/Lago-Moraine-Parque-Nacional-Banff-Alberta-Canada-1440x810.jpg"
-          }
+          },
+          location: action.location
         })
       };
 
