@@ -1,12 +1,9 @@
 import { ADD_PLACE, DELETE_PLACE } from "./actionTypes";
+import { uiStartLoading, uiStopLoading } from "./index";
 
 export const addPlace = (placeName, location, image) => {
   return dispatch => {
-    const placeData = {
-      name: placeName,
-      location: location
-    };
-
+    dispatch(uiStartLoading());
     fetch(
       "https://us-central1-awesome-places-a45a8.cloudfunctions.net/storeImage",
       {
@@ -16,21 +13,35 @@ export const addPlace = (placeName, location, image) => {
         })
       }
     )
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err);
+        dispatch(uiStopLoading());
+      })
       .then(res => res.json())
       .then(parsedRes => {
-        console.log(parsedRes);
-      });
+        const placeData = {
+          name: placeName,
+          location: location,
+          image: parsedRes.imageUrl
+        };
 
-    // fetch("https://awesome-places-a45a8.firebaseio.com/places.json", {
-    //   method: "POST",
-    //   body: JSON.stringify(placeData)
-    // })
-    //   .catch(err => console.log(err))
-    //   .then(res => res.json())
-    //   .then(parsedResponse => {
-    //     console.log(parsedResponse);
-    //   });
+        return fetch(
+          "https://awesome-places-a45a8.firebaseio.com/places.json",
+          {
+            method: "POST",
+            body: JSON.stringify(placeData)
+          }
+        );
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch(uiStopLoading());
+      })
+      .then(res => res.json())
+      .then(parsedResponse => {
+        console.log(parsedResponse);
+        dispatch(uiStopLoading());
+      });
   };
 };
 
