@@ -22,13 +22,13 @@ npm i
 
 # Run
 
-if you are in IOS:
+if IOS:
 
 ```
 npm run ios
 ```
 
-else if you are in Android:
+else if Android:
 
 ```
 npm run android
