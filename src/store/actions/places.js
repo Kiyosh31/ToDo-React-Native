@@ -1,4 +1,4 @@
-import { ADD_PLACE, DELETE_PLACE } from "./actionTypes";
+import { SET_PLACES, REMOVE_PLACE } from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "./index";
 
 export const addPlace = (placeName, location, image) => {
@@ -15,6 +15,7 @@ export const addPlace = (placeName, location, image) => {
     )
       .catch(err => {
         console.log(err);
+        alert("Something went wrong, please try again!");
         dispatch(uiStopLoading());
       })
       .then(res => res.json())
@@ -35,6 +36,7 @@ export const addPlace = (placeName, location, image) => {
       })
       .catch(err => {
         console.log(err);
+        alert("Something went wrong, please try again!");
         dispatch(uiStopLoading());
       })
       .then(res => res.json())
@@ -45,9 +47,60 @@ export const addPlace = (placeName, location, image) => {
   };
 };
 
-export const deletePlace = key => {
+export const getPlaces = () => {
+  return dispatch => {
+    fetch("https://awesome-places-a45a8.firebaseio.com/places.json")
+      .catch(err => {
+        alert("Something went wrong, sorry");
+        console.log(err);
+      })
+      .then(res => res.json())
+      .then(parsedRes => {
+        const places = [];
+        for (let key in parsedRes) {
+          places.push({
+            ...parsedRes[key],
+            image: {
+              uri: parsedRes[key].image
+            },
+            key: key
+          });
+        }
+        dispatch(setPlaces(places));
+      });
+  };
+};
+
+export const setPlaces = places => {
   return {
-    type: DELETE_PLACE,
-    placeKey: key
+    type: SET_PLACES,
+    places: places
+  };
+};
+
+export const deletePlace = key => {
+  return dispatch => {
+    dispatch(removePlace(key));
+    fetch(
+      "https://awesome-places-a45a8.firebaseio.com/places/" + key + ".json",
+      {
+        method: "DELETE"
+      }
+    )
+      .catch(err => {
+        alert("Something went wrong!");
+        console.log(err);
+      })
+      .then(res => res.json())
+      .then(parsedRes => {
+        console.log("Done!");
+      });
+  };
+};
+
+export const removePlace = key => {
+  return {
+    type: REMOVE_PLACE,
+    key: key
   };
 };

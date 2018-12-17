@@ -26,7 +26,7 @@ exports.storeImage = functions.https.onRequest((request, response) => {
     bucket.upload(
       "/tmp/uploaded-image.jpg",
       {
-        upload: "media",
+        uploadType: "media",
         destination: "/places/" + uuid + ".jpg",
         metadata: {
           metadata: {
