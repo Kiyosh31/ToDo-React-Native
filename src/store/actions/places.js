@@ -7,15 +7,30 @@ export const addPlace = (placeName, location, image) => {
       location: location
     };
 
-    fetch("https://awesome-places-a45a8.firebaseio.com/places.json", {
-      method: "POST",
-      body: JSON.stringify(placeData)
-    })
+    fetch(
+      "https://us-central1-awesome-places-a45a8.cloudfunctions.net/storeImage",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          image: image.base64
+        })
+      }
+    )
       .catch(err => console.log(err))
       .then(res => res.json())
-      .then(parsedResponse => {
-        console.log(parsedResponse);
+      .then(parsedRes => {
+        console.log(parsedRes);
       });
+
+    // fetch("https://awesome-places-a45a8.firebaseio.com/places.json", {
+    //   method: "POST",
+    //   body: JSON.stringify(placeData)
+    // })
+    //   .catch(err => console.log(err))
+    //   .then(res => res.json())
+    //   .then(parsedResponse => {
+    //     console.log(parsedResponse);
+    //   });
   };
 };
 
