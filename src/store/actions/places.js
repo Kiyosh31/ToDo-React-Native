@@ -1,5 +1,5 @@
 import { SET_PLACES, REMOVE_PLACE } from "./actionTypes";
-import { uiStartLoading, uiStopLoading } from "./index";
+import { uiStartLoading, uiStopLoading, authGetToken } from "./index";
 
 export const addPlace = (placeName, location, image) => {
   return dispatch => {
@@ -34,14 +34,14 @@ export const addPlace = (placeName, location, image) => {
           }
         );
       })
-      .catch(err => {
-        console.log(err);
-        alert("Something went wrong, please try again!");
-        dispatch(uiStopLoading());
-      })
       .then(res => res.json())
       .then(parsedResponse => {
         console.log(parsedResponse);
+        dispatch(uiStopLoading());
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Something went wrong, please try again!");
         dispatch(uiStopLoading());
       });
   };
@@ -49,10 +49,15 @@ export const addPlace = (placeName, location, image) => {
 
 export const getPlaces = () => {
   return dispatch => {
-    fetch("https://awesome-places-a45a8.firebaseio.com/places.json")
-      .catch(err => {
-        alert("Something went wrong, sorry");
-        console.log(err);
+    dispatch(authGetToken())
+      .then(token => {
+        return fetch(
+          "https://awesome-places-a45a8.firebaseio.com/places.json?auth=" +
+            token
+        );
+      })
+      .catch(() => {
+        alert("No valid token found!");
       })
       .then(res => res.json())
       .then(parsedRes => {
@@ -67,6 +72,10 @@ export const getPlaces = () => {
           });
         }
         dispatch(setPlaces(places));
+      })
+      .catch(err => {
+        alert("Something went wrong, sorry :/");
+        console.log(err);
       });
   };
 };
@@ -87,13 +96,13 @@ export const deletePlace = key => {
         method: "DELETE"
       }
     )
-      .catch(err => {
-        alert("Something went wrong!");
-        console.log(err);
-      })
       .then(res => res.json())
       .then(parsedRes => {
         console.log("Done!");
+      })
+      .catch(err => {
+        alert("Something went wrong!");
+        console.log(err);
       });
   };
 };
