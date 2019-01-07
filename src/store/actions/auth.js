@@ -1,6 +1,6 @@
 import { AsyncStorage } from "react-native";
 
-import { TRY_AUTH, AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN } from "./actionTypes";
+import { AUTH_SET_TOKEN, AUTH_REMOVE_TOKEN } from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "./index";
 import startMainTabs from "../../screens/MainTabs/StartMainTabs";
 import App from "../../../App";
@@ -36,7 +36,13 @@ export const tryAuth = (authData, authMode) => {
         alert("Authentication failed, please try again!");
         dispatch(uiStopLoading());
       })
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error();
+        }
+      })
       .then(parsedRes => {
         dispatch(uiStopLoading());
 
@@ -122,7 +128,13 @@ export const authGetToken = () => {
               }
             );
           })
-          .then(res => res.json())
+          .then(res => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw new Error();
+            }
+          })
           .then(parsedRes => {
             if (parsedRes.id_token) {
               dispatch(

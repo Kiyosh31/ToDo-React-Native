@@ -1,0 +1,13 @@
+[debug] [2019-01-07T23:02:09.289Z] ----------------------------------------------------------------------
+[debug] [2019-01-07T23:02:09.291Z] Command:       /usr/bin/node /usr/bin/firebase deploy
+[debug] [2019-01-07T23:02:09.291Z] CLI Version:   6.1.2
+[debug] [2019-01-07T23:02:09.291Z] Platform:      linux
+[debug] [2019-01-07T23:02:09.291Z] Node Version:  v10.15.0
+[debug] [2019-01-07T23:02:09.291Z] Time:          Mon Jan 07 2019 17:02:09 GMT-0600 (GMT-06:00)
+[debug] [2019-01-07T23:02:09.291Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-01-07T23:02:09.301Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-01-07T23:02:09.302Z] > authorizing via signed-in user
+[debug] [2019-01-07T23:02:09.302Z] [iam] checking project awesome-places-a45a8 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2019-01-07T23:02:09.305Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/awesome-places-a45a8:testIamPermissions  
+
