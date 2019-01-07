@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Button, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Image,
+  Button,
+  StyleSheet,
+  Text,
+  Dimensions
+} from "react-native";
 import MapView from "react-native-maps";
 
 class PickLocation extends Component {
@@ -28,7 +35,6 @@ class PickLocation extends Component {
       latitude: coords.latitude,
       longitude: coords.longitude
     });
-
     this.setState(prevState => {
       return {
         focusedLocation: {
@@ -60,7 +66,7 @@ class PickLocation extends Component {
       },
       err => {
         console.log(err);
-        alert("fetching the position failed! please pick one manually");
+        alert("Fetching the Position failed, please pick one manually!");
       }
     );
   };
@@ -86,7 +92,7 @@ class PickLocation extends Component {
           {marker}
         </MapView>
         <View style={styles.button}>
-          <Button title="locate me" onPress={() => this.getLocationHandler} />
+          <Button title="Locate Me" onPress={this.getLocationHandler} />
         </View>
       </View>
     );
