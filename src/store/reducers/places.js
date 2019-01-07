@@ -29,13 +29,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         placeAdded: false
       };
-
     case PLACE_ADDED:
       return {
         ...state,
         placeAdded: true
       };
-
     default:
       return state;
   }

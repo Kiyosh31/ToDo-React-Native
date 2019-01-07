@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, Image, Button, StyleSheet } from "react-native";
-
 import ImagePicker from "react-native-image-picker";
 
 class PickImage extends Component {
@@ -16,12 +15,12 @@ class PickImage extends Component {
 
   pickImageHandler = () => {
     ImagePicker.showImagePicker(
-      { title: "Pick an image", maxWidth: 800, maxHeight: 600 },
+      { title: "Pick an Image", maxWidth: 800, maxHeight: 600 },
       res => {
         if (res.didCancel) {
-          console.log("user cancelled!");
+          console.log("User cancelled!");
         } else if (res.error) {
-          console.log("Error: ", res.error);
+          console.log("Error", res.error);
         } else {
           this.setState({
             pickedImage: { uri: res.uri }
@@ -39,7 +38,7 @@ class PickImage extends Component {
           <Image source={this.state.pickedImage} style={styles.previewImage} />
         </View>
         <View style={styles.button}>
-          <Button title="pick image" onPress={this.pickImageHandler} />
+          <Button title="Pick Image" onPress={this.pickImageHandler} />
         </View>
       </View>
     );
@@ -58,12 +57,12 @@ const styles = StyleSheet.create({
     width: "80%",
     height: 150
   },
+  button: {
+    margin: 8
+  },
   previewImage: {
     width: "100%",
     height: "100%"
-  },
-  button: {
-    margin: 8
   }
 });
 
